@@ -5,5 +5,5 @@ dist/
 *.log
 .env
 .env.*
-.preview/
 site-dist.zip
+preview/
