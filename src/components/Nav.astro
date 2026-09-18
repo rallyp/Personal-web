@@ -1,6 +1,7 @@
 ---
-// The top bar. Rendered on every page by Base.astro, so there is only
-// ever one copy of this markup to edit.
+// The top bar. It sits *over* the hero rather than above it: transparent at
+// the top of the page, and only picking up a solid background once you scroll
+// past the imagery (otherwise white links would vanish on the cream sections).
 const links = [
   { href: '/',      label: 'home',  emoji: '🏠' },
   { href: '/work',  label: 'work' },
@@ -8,14 +9,12 @@ const links = [
   { href: '/about', label: 'about' },
 ];
 
-// Astro.url.pathname is the URL of the page being built, e.g. "/work".
-// We use it to bold the link for the page you are currently on.
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) =>
   href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
 ---
 
-<header class="nav">
+<header class="nav" id="site-nav">
   <a class="brand" href="/">
     <img class="brand__mark" src="/images/RBanner.png" alt="" width="34" height="34" />
     <span class="brand__name">rally pagulayan</span>
@@ -36,8 +35,10 @@ const isActive = (href: string) =>
 
 <style>
   .nav {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 50;
     height: var(--nav-h);
     display: flex;
@@ -45,7 +46,33 @@ const isActive = (href: string) =>
     justify-content: space-between;
     gap: 16px;
     padding-inline: 20px;
-    background: var(--nav-bg);
+    background: transparent;
+    transition: background-color 180ms ease;
+  }
+
+  /* A soft scrim so the links stay legible over a bright patch of photograph,
+     without drawing a visible bar. It fades out once the bar goes solid. */
+  .nav::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
+    transition: opacity 180ms ease;
+  }
+
+  .nav.is-stuck {
+    background: rgba(18, 18, 18, 0.86);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .nav.is-stuck::before { opacity: 0; }
+
+  .brand,
+  .nav nav {
+    position: relative;
+    z-index: 1;
   }
 
   .brand {
@@ -56,9 +83,20 @@ const isActive = (href: string) =>
     color: var(--text);
   }
 
-  .brand__mark { width: 34px; height: 34px; flex: none; object-fit: contain; }
+  .brand__mark {
+    width: 34px;
+    height: 34px;
+    flex: none;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5));
+  }
 
-  .brand__name { font-size: 17px; font-weight: 300; letter-spacing: 0.01em; }
+  .brand__name {
+    font-size: 17px;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+  }
 
   nav ul {
     display: flex;
@@ -73,12 +111,12 @@ const isActive = (href: string) =>
     font-size: 13.5px;
     text-decoration: none;
     color: var(--text);
-    opacity: 0.85;
+    opacity: 0.88;
     white-space: nowrap;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
   }
 
   nav a:hover { opacity: 1; }
-
   nav a.active { font-weight: 500; opacity: 1; }
 
   .emoji { margin-right: 4px; }
@@ -86,5 +124,9 @@ const isActive = (href: string) =>
   @media (max-width: 560px) {
     .brand__name { display: none; }
     nav ul { gap: 14px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav, .nav::before { transition: none; }
   }
 </style>

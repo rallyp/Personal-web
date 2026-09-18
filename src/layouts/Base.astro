@@ -12,11 +12,16 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  /** True when the page opens with a full-bleed hero or banner that the
+   *  transparent nav should sit on top of. Pages without one get the nav's
+   *  height as padding instead, so their content isn't hidden behind it. */
+  heroAtTop?: boolean;
 }
 
 const {
   title,
   description = 'Rally Pagulayan — CEO of EchoUser, a UX Research and Design firm. UX research and design professional of 30 years.',
+  heroAtTop = false,
 } = Astro.props;
 ---
 
@@ -39,9 +44,36 @@ const {
 
   <body>
     <Nav />
-    <main>
+    <main class:list={[{ 'main--offset': !heroAtTop }]}>
       <slot />
     </main>
     <Footer />
+
+    <script is:inline>
+      // The nav is transparent over the hero and goes solid once you scroll,
+      // so the links stay readable against the page content below.
+      (function () {
+        var nav = document.getElementById('site-nav');
+        if (!nav) return;
+
+        var pending = false;
+        function update() {
+          nav.classList.toggle('is-stuck', window.scrollY > 24);
+          pending = false;
+        }
+
+        window.addEventListener('scroll', function () {
+          if (pending) return;
+          pending = true;
+          requestAnimationFrame(update);
+        }, { passive: true });
+
+        update();
+      })();
+    </script>
   </body>
 </html>
+
+<style is:global>
+  .main--offset { padding-top: var(--nav-h); }
+</style>

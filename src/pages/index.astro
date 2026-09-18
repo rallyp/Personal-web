@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="rally pagulayan">
+<Base title="rally pagulayan" heroAtTop>
   <section class="hero">
     <!-- Source photo kept at src/images-source/LimaPodium.png -->
     <div class="hero__bg" aria-hidden="true"></div>
@@ -18,7 +18,8 @@ import Base from '../layouts/Base.astro';
 <style>
   .hero {
     position: relative;
-    min-height: calc(100vh - var(--nav-h));
+    min-height: 100vh;
+    min-height: 100svh;   /* svh accounts for mobile browser chrome */
     display: grid;
     place-items: center;
     overflow: hidden;

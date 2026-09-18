@@ -7,7 +7,7 @@ interface Props {
   height?: string;
 }
 
-const { title, subtitle, image, height = '260px' } = Astro.props;
+const { title, subtitle, image, height = '320px' } = Astro.props;
 ---
 
 <section
@@ -27,7 +27,7 @@ const { title, subtitle, image, height = '260px' } = Astro.props;
     display: grid;
     place-items: center;
     text-align: center;
-    padding: 48px 24px;
+    padding: calc(48px + var(--nav-h)) 24px 48px;
     background-color: #2b2b2b;
     background-size: cover;
     background-position: center;
