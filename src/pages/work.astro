@@ -1,0 +1,73 @@
+---
+import Base from '../layouts/Base.astro';
+import PageBanner from '../components/PageBanner.astro';
+import Placeholder from '../components/Placeholder.astro';
+
+// Content lives in this array rather than being typed out four times below.
+// Add, reorder or edit an entry here and the page follows.
+const items = [
+  {
+    title: 'CEO',
+    body: ["I'm currently the CEO of EchoUser, a successful UX Research and Design firm."],
+    image: null,
+    imageLabel: 'CEO section',
+  },
+  {
+    title: 'Leading UX teams',
+    body: ["I was EchoUser's first Design Director, building a thriving Design team and eventually took over both Design and Research."],
+    image: null,
+    imageLabel: 'Leading UX teams section',
+  },
+  {
+    title: 'UX expertise',
+    body: ["I've been practicing UX (Human Factors Engineering, Usability, User Interface Design...) for 30 years now. I've done this across many domains from military comms to databases to analytics to consumer products, in large organizations and with startups. Although my experience has a lot of breadth, my expertise is with really complex systems."],
+    image: null,
+    imageLabel: 'UX expertise section',
+  },
+  {
+    title: 'Foundations',
+    body: ['You gain a lot of insight about how I practice UX by understanding how I learned and practiced at the start of my career. Dive into my foundational experiences and education to understand more about how I approach the UX practice.'],
+    image: null,
+    imageLabel: 'Foundations section',
+  },
+];
+---
+
+<Base title="rally pagulayan - work">
+  <PageBanner
+    title="Where I talk work"
+    subtitle="This is where I will talk a little about work stuff, at some point..."
+  />
+
+  <div class="section section--band">
+    <div class="wrap">
+      <p class="intro">An overview of my professional experience</p>
+    </div>
+  </div>
+
+  {items.map((item, i) => (
+    <section class="section">
+      <div class="wrap">
+        <div class:list={['split', { 'split--flip': i % 2 === 1 }]}>
+          <div class="split__media">
+            {item.image
+              ? <img src={item.image} alt="" />
+              : <Placeholder label={item.imageLabel} />}
+          </div>
+          <div class="split__body">
+            <h2 class="h-section">{item.title}</h2>
+            {item.body.map((p) => <p>{p}</p>)}
+            <a class="more" href="#">More...</a>
+          </div>
+        </div>
+      </div>
+      <hr class="rule" />
+    </section>
+  ))}
+</Base>
+
+<style>
+  .intro { margin: 0; font-size: 14px; color: var(--text-muted); }
+  .section { padding-block: 48px; }
+  .section:last-of-type :global(.rule) { display: none; }
+</style>

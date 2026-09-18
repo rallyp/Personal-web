@@ -1,0 +1,62 @@
+---
+// The image band with a big title that sits at the top of the inner pages.
+interface Props {
+  title: string;
+  subtitle?: string;
+  image?: string;   // path to a file in /public, e.g. "/images/about-banner.jpg"
+  height?: string;
+}
+
+const { title, subtitle, image, height = '260px' } = Astro.props;
+---
+
+<section
+  class:list={['banner', { 'banner--empty': !image }]}
+  style={`--banner-h: ${height};` + (image ? ` background-image: linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)), url('${image}');` : '')}
+>
+  <div class="banner__inner">
+    <h1>{title}</h1>
+    {subtitle && <p>{subtitle}</p>}
+    {!image && <p class="banner__note">banner image needed</p>}
+  </div>
+</section>
+
+<style>
+  .banner {
+    min-height: var(--banner-h);
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 48px 24px;
+    background-color: #2b2b2b;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .banner--empty {
+    background-image: repeating-linear-gradient(
+      45deg,
+      #2b2b2b 0 12px,
+      #333 12px 24px
+    );
+  }
+
+  .banner h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    color: var(--heading-hero);
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  .banner p {
+    margin: 14px 0 0;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  .banner__note {
+    font-size: 12px;
+    opacity: 0.6;
+    font-style: italic;
+  }
+</style>

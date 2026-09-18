@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="rally pagulayan">
+  <section class="hero">
+    <!-- Background image goes at /public/images/hero-greyhound.jpg -->
+    <div class="hero__bg" aria-hidden="true"></div>
+    <h1>Hello there.</h1>
+    <a class="hero__chevron" href="#intro" aria-label="Scroll down">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </section>
+
+  <span id="intro"></span>
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: calc(100vh - var(--nav-h));
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: #050505;
+  }
+
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('/images/hero-greyhound.jpg');
+    background-size: cover;
+    background-position: center;
+    /* Until the photo is dropped in, show a soft dark field rather than a broken image. */
+    background-color: #0b0b0b;
+  }
+
+  .hero h1 {
+    position: relative;
+    font-size: clamp(2.75rem, 8vw, 5rem);
+    color: var(--heading-hero);
+    text-align: center;
+    padding-inline: 24px;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
+  }
+
+  .hero__chevron {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .hero__chevron svg { width: 30px; height: 30px; }
+</style>

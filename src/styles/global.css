@@ -1,0 +1,140 @@
+/* ---------------------------------------------------------------
+   Design tokens — pulled from the original Google Sites build.
+   Change a value here and it updates everywhere on the site.
+   --------------------------------------------------------------- */
+:root {
+  --bg:          #000000;
+  --bg-band:     #14120f;   /* the slightly-warm dark bands between sections */
+  --bg-cream:    #fffdf7;   /* light sections on the "other" page */
+  --nav-bg:      #1f2020;
+
+  --text:        #ffffff;
+  --text-muted:  #d9d9d9;
+  --text-dark:   #1c1c1c;   /* body copy on cream sections */
+
+  --heading-hero:  #f9f9f9; /* big page titles over imagery */
+  --heading-blue:  #cfe2f3; /* section headings on dark */
+  --heading-blue-on-cream: #4a86c8;
+
+  --accent:      #f5c400;   /* the yellow of the flag logo */
+  --rule:        rgba(255, 255, 255, 0.14);
+
+  --font: "Helvetica Neue", Helvetica, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+
+  --nav-h: 60px;
+  --page-max: 1200px;
+  --gutter: 24px;
+}
+
+/* --- reset ---------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.55;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a { color: inherit; }
+
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+}
+
+/* --- layout helpers ------------------------------------------- */
+.wrap {
+  max-width: var(--page-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: 64px;
+}
+
+.section--band { background: var(--bg-band); }
+
+.section--cream {
+  background: var(--bg-cream);
+  color: var(--text-dark);
+  padding-block: 72px;
+}
+
+.rule {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+
+/* --- headings -------------------------------------------------- */
+.h-section {
+  font-size: clamp(2.25rem, 5.5vw, 4rem);
+  color: var(--heading-blue);
+  margin-bottom: 28px;
+}
+
+.section--cream .h-section {
+  color: var(--heading-blue-on-cream);
+  text-align: center;
+}
+
+.lede {
+  max-width: 60ch;
+  color: var(--text-muted);
+}
+
+/* --- two-column alternating rows ------------------------------- */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.split--flip .split__media { order: 2; }
+
+@media (max-width: 800px) {
+  .split { grid-template-columns: 1fr; gap: 28px; }
+  .split--flip .split__media { order: 0; }
+}
+
+.split__body p { margin: 0 0 14px; }
+
+.more {
+  display: inline-block;
+  margin-top: 6px;
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --- placeholder blocks (stand in for missing images) ---------- */
+.ph {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  background: #3a3a3a;
+  border: 1px dashed rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 13px;
+  text-align: center;
+  padding: 16px;
+}
+
+.section--cream .ph {
+  background: #ebe7dd;
+  border-color: rgba(0, 0, 0, 0.25);
+  color: rgba(0, 0, 0, 0.45);
+}

@@ -1,0 +1,12 @@
+---
+// A visible stand-in wherever an image from the old site still needs to be
+// supplied. Grep the project for "<Placeholder" to find every remaining one.
+interface Props {
+  label: string;
+  ratio?: string;
+}
+const { label, ratio = '4 / 3' } = Astro.props;
+---
+<div class="ph" style={`aspect-ratio: ${ratio}`}>
+  <span>image needed — {label}</span>
+</div>

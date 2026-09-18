@@ -1,0 +1,54 @@
+---
+// Brand glyphs come from the `simple-icons` npm package rather than being
+// hand-drawn, so they stay accurate. LinkedIn is not distributed in that
+// package, so it uses a neutral link glyph until a logo file is dropped in.
+import { siInstagram, siMastodon, siThreads, siMedium, siBluesky, siSubstack } from 'simple-icons';
+
+const GENERIC_LINK =
+  'M10.59 13.41a1 1 0 0 1 0-1.41l3-3a1 1 0 0 1 1.41 1.41l-3 3a1 1 0 0 1-1.41 0zm-2.12 4.24a3 3 0 0 1-4.24-4.24l2.83-2.83a3 3 0 0 1 4.24 0 1 1 0 0 1-1.41 1.42 1 1 0 0 0-1.42 0l-2.82 2.82a1 1 0 0 0 1.41 1.42l1.06-1.06a1 1 0 0 1 1.42 1.41zm11.3-11.3a3 3 0 0 1 0 4.24l-2.83 2.83a3 3 0 0 1-4.24 0 1 1 0 0 1 1.41-1.42 1 1 0 0 0 1.42 0l2.82-2.82a1 1 0 0 0-1.41-1.42l-1.06 1.06a1 1 0 1 1-1.42-1.41l1.06-1.06a3 3 0 0 1 4.25 0z';
+
+const socials = [
+  { name: 'Instagram', href: 'https://instagram.com/rallyp_157',        icon: siInstagram },
+  { name: 'LinkedIn',  href: 'https://www.linkedin.com/in/rallypagulayan/', path: GENERIC_LINK },
+  { name: 'Mastodon',  href: 'https://sfba.social/@rallyp',             icon: siMastodon },
+  { name: 'Threads',   href: 'https://www.threads.net/@rallyp_157',     icon: siThreads },
+  { name: 'Medium',    href: 'https://medium.com/@rallyp',              icon: siMedium },
+  { name: 'Bluesky',   href: 'https://bsky.app/profile/rallyp.bsky.social', icon: siBluesky },
+  { name: 'Substack',  href: 'https://rallyp.substack.com',             icon: siSubstack },
+];
+---
+
+<ul class="socials">
+  {socials.map((s) => (
+    <li>
+      <a href={s.href} target="_blank" rel="me noopener noreferrer" aria-label={s.name} title={s.name}>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d={s.icon ? s.icon.path : s.path} />
+        </svg>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .socials {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin: 22px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .socials a {
+    display: block;
+    color: var(--text);
+    opacity: 0.8;
+    transition: opacity 120ms ease, transform 120ms ease;
+  }
+
+  .socials a:hover { opacity: 1; transform: translateY(-1px); }
+
+  .socials svg { width: 20px; height: 20px; fill: currentColor; }
+</style>

@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import PageBanner from '../components/PageBanner.astro';
+import Placeholder from '../components/Placeholder.astro';
+---
+
+<Base title="rally pagulayan - about">
+  <PageBanner title="About" image={undefined} />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="split">
+        <div class="split__media">
+          <Placeholder label="Rally at the Tim Hortons sign" ratio="3 / 4" />
+        </div>
+        <div class="split__body">
+          <h2 class="h-section">Briefest brief</h2>
+          <p>Hi there, I'm Rally.</p>
+          <p>I'm the CEO of EchoUser, a UX Research and Design firm.</p>
+          <p>I live with my wife and our greyhound in the Bernal Heights neighborhood of San Francisco.</p>
+          <p class="flags">🇺🇸 🇨🇦 🇵🇭</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="h-section">The Professional About</h2>
+      <p class="lede">This is where I'll give a high level "About" my career. (Haven't done it yet)</p>
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="h-section">The Long Story</h2>
+      <p class="lede">Maybe a little bit of a longer narrative...</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .flags { font-size: 20px; letter-spacing: 4px; }
+</style>
