@@ -3,7 +3,7 @@
 // the top of the page, and only picking up a solid background once you scroll
 // past the imagery (otherwise white links would vanish on the cream sections).
 const links = [
-  { href: '/',      label: 'home',  mark: true },
+  { href: '/',      label: 'home' },
   { href: '/work',  label: 'work' },
   { href: '/other', label: 'other' },
   { href: '/about', label: 'about' },
@@ -20,7 +20,7 @@ const isActive = (href: string) =>
       {links.map((l) => (
         <li>
           <a href={l.href} class:list={[{ active: isActive(l.href) }]} aria-current={isActive(l.href) ? 'page' : undefined}>
-            {l.mark && <img class="mark" src="/images/RBanner.png" alt="" width="24" height="24" />}{l.label}
+            {l.label}
           </a>
         </li>
       ))}
@@ -75,9 +75,6 @@ const isActive = (href: string) =>
   }
 
   nav a {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
     font-size: 13.5px;
     text-decoration: none;
     color: var(--text);
@@ -88,14 +85,6 @@ const isActive = (href: string) =>
 
   nav a:hover { opacity: 1; }
   nav a.active { font-weight: 500; opacity: 1; }
-
-  .mark {
-    width: 24px;
-    height: 24px;
-    flex: none;
-    object-fit: contain;
-    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5));
-  }
 
   @media (max-width: 560px) {
     nav ul { gap: 15px; }
