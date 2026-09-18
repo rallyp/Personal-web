@@ -4,6 +4,9 @@
 // own content gets dropped in.
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+// Self-hosted so the fonts come from our own domain rather than a third party:
+// faster, and no external request on every page view.
+import '@fontsource-variable/instrument-sans';
 import '../styles/global.css';
 
 interface Props {

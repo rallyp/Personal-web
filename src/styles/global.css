@@ -19,7 +19,9 @@
   --accent:      #f5c400;   /* the yellow of the flag logo */
   --rule:        rgba(255, 255, 255, 0.14);
 
+  /* Body and navigation stay on Helvetica Neue; display type uses Instrument Sans. */
   --font: "Helvetica Neue", Helvetica, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  --font-display: "Instrument Sans Variable", "Instrument Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   --nav-h: 60px;
   --page-max: 1200px;
@@ -80,7 +82,9 @@ h1, h2, h3, h4 {
 
 /* --- headings -------------------------------------------------- */
 .h-section {
+  font-family: var(--font-display);
   font-size: clamp(2.25rem, 5.5vw, 4rem);
+  letter-spacing: -0.03em;
   color: var(--heading-blue);
   margin-bottom: 28px;
 }
