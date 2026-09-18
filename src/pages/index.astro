@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 
 <Base title="rally pagulayan">
   <section class="hero">
-    <!-- Background image goes at /public/images/hero-greyhound.jpg -->
+    <!-- Source photo kept at src/images-source/LimaPodium.png -->
     <div class="hero__bg" aria-hidden="true"></div>
     <h1>Hello there.</h1>
     <a class="hero__chevron" href="#intro" aria-label="Scroll down">
@@ -28,11 +28,10 @@ import Base from '../layouts/Base.astro';
   .hero__bg {
     position: absolute;
     inset: 0;
-    background-image: url('/images/hero-greyhound.jpg');
+    background-image: url('/images/hero-lima.jpg');
     background-size: cover;
     background-position: center;
-    /* Until the photo is dropped in, show a soft dark field rather than a broken image. */
-    background-color: #0b0b0b;
+    background-color: #000;
   }
 
   .hero h1 {

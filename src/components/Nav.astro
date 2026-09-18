@@ -17,11 +17,7 @@ const isActive = (href: string) =>
 
 <header class="nav">
   <a class="brand" href="/">
-    <!-- Placeholder mark. Swap in the real flag logo at /public/images/logo.png -->
-    <svg class="brand__mark" viewBox="0 0 40 40" aria-hidden="true">
-      <path d="M8 4 v32" stroke="#e8e8e8" stroke-width="2.5" stroke-linecap="round" />
-      <path d="M9 5 C20 2, 28 10, 38 7 C30 13, 24 16, 9 17 Z" fill="var(--accent)" />
-    </svg>
+    <img class="brand__mark" src="/images/RBanner.png" alt="" width="34" height="34" />
     <span class="brand__name">rally pagulayan</span>
   </a>
 
@@ -60,7 +56,7 @@ const isActive = (href: string) =>
     color: var(--text);
   }
 
-  .brand__mark { width: 30px; height: 30px; flex: none; }
+  .brand__mark { width: 34px; height: 34px; flex: none; object-fit: contain; }
 
   .brand__name { font-size: 17px; font-weight: 300; letter-spacing: 0.01em; }
 
