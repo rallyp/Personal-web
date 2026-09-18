@@ -3,10 +3,10 @@ import SocialRow from './SocialRow.astro';
 
 // One place to edit the standing bio that repeats at the foot of every page.
 const bio = [
-  'UX research and design professional of 30 years',
-  'Wrangler of greyhound',
   'American, Canadian, Filipino',
-  'Fan of food, drink. and sport.',
+  'Greyhound aficionado',
+  'Fan of food, drink, and sports.',
+  'UX research and design professional of 30 years',
 ];
 
 const year = new Date().getFullYear();
@@ -15,7 +15,6 @@ const year = new Date().getFullYear();
 <footer class="foot">
   <hr class="rule" />
   <div class="wrap foot__inner">
-    <p>CEO of <a href="https://www.echouser.com" target="_blank" rel="noopener noreferrer">EchoUser</a>, a UX Research and Design Firm</p>
     {bio.map((line) => <p>{line}</p>)}
 
     <SocialRow />
