@@ -8,8 +8,13 @@ but NOT published, so the site stays light.
 
 | File | Used on | What it is |
 |------|---------|------------|
-| RBanner.png | every page | the yellow flag mark in the nav |
 | hero-lima.jpg | home | Lima at the bank of microphones |
+
+## Parked — kept deliberately, not currently shown
+
+| File | Notes |
+|------|-------|
+| RBanner.png | the yellow R flag. Used in the nav and then the hero, removed from both for now. Left here so it can go back with a single `<img>` tag. |
 
 ## Still needed
 
