@@ -3,7 +3,7 @@
 // the top of the page, and only picking up a solid background once you scroll
 // past the imagery (otherwise white links would vanish on the cream sections).
 const links = [
-  { href: '/',      label: 'home',  emoji: '🏠' },
+  { href: '/',      label: 'home',  mark: true },
   { href: '/work',  label: 'work' },
   { href: '/other', label: 'other' },
   { href: '/about', label: 'about' },
@@ -15,17 +15,12 @@ const isActive = (href: string) =>
 ---
 
 <header class="nav" id="site-nav">
-  <a class="brand" href="/">
-    <img class="brand__mark" src="/images/RBanner.png" alt="" width="34" height="34" />
-    <span class="brand__name">rally pagulayan</span>
-  </a>
-
   <nav aria-label="Main">
     <ul>
       {links.map((l) => (
         <li>
           <a href={l.href} class:list={[{ active: isActive(l.href) }]} aria-current={isActive(l.href) ? 'page' : undefined}>
-            {l.emoji && <span class="emoji">{l.emoji}</span>}{l.label}
+            {l.mark && <img class="mark" src="/images/RBanner.png" alt="" width="24" height="24" />}{l.label}
           </a>
         </li>
       ))}
@@ -43,8 +38,7 @@ const isActive = (href: string) =>
     height: var(--nav-h);
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 16px;
+    justify-content: flex-end;
     padding-inline: 20px;
     background: transparent;
     transition: background-color 180ms ease;
@@ -69,34 +63,7 @@ const isActive = (href: string) =>
 
   .nav.is-stuck::before { opacity: 0; }
 
-  .brand,
-  .nav nav {
-    position: relative;
-    z-index: 1;
-  }
-
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    color: var(--text);
-  }
-
-  .brand__mark {
-    width: 34px;
-    height: 34px;
-    flex: none;
-    object-fit: contain;
-    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5));
-  }
-
-  .brand__name {
-    font-size: 17px;
-    font-weight: 300;
-    letter-spacing: 0.01em;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
-  }
+  .nav nav { position: relative; z-index: 1; }
 
   nav ul {
     display: flex;
@@ -108,6 +75,9 @@ const isActive = (href: string) =>
   }
 
   nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
     font-size: 13.5px;
     text-decoration: none;
     color: var(--text);
@@ -119,11 +89,16 @@ const isActive = (href: string) =>
   nav a:hover { opacity: 1; }
   nav a.active { font-weight: 500; opacity: 1; }
 
-  .emoji { margin-right: 4px; }
+  .mark {
+    width: 24px;
+    height: 24px;
+    flex: none;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5));
+  }
 
   @media (max-width: 560px) {
-    .brand__name { display: none; }
-    nav ul { gap: 14px; }
+    nav ul { gap: 15px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
