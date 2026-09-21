@@ -3,10 +3,11 @@
 // the top of the page, and only picking up a solid background once you scroll
 // past the imagery (otherwise white links would vanish on the cream sections).
 const links = [
-  { href: '/',       label: 'home' },
-  { href: '/about',  label: 'about' },
-  { href: '/comics', label: 'comics' },
-  { href: '/store',  label: 'store' },
+  { href: '/',         label: 'home' },
+  { href: '/about',    label: 'about' },
+  { href: '/thoughts', label: 'thoughts' },
+  { href: '/comics',   label: 'comics' },
+  { href: '/store',    label: 'store' },
 ];
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';

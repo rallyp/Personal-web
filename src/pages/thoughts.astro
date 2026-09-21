@@ -1,0 +1,140 @@
+---
+import Base from '../layouts/Base.astro';
+import PageBanner from '../components/PageBanner.astro';
+
+const SUBSTACK = 'https://rallyp.substack.com';
+const MEDIUM = 'https://medium.com/@rallyp';
+
+// Placeholder rows, shaped like the real post list so the layout is already
+// settled when the Substack feed gets wired in.
+const slots = [1, 2, 3];
+---
+
+<Base
+  title="rally pagulayan - thoughts"
+  description="Writing by Rally Pagulayan on UX research, design practice and whatever else."
+  heroAtTop
+>
+  <PageBanner title="Thoughts" subtitle="Writing, mostly about the practice" />
+
+  <section class="section">
+    <div class="wrap">
+      <p class="lede">
+        This is where the writing will live. For now it points at the places the writing already is.
+      </p>
+
+      <ul class="shops">
+        <li>
+          <a href={SUBSTACK} target="_blank" rel="noopener noreferrer">
+            Substack
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </li>
+        <li>
+          <a href={MEDIUM} target="_blank" rel="noopener noreferrer">
+            Medium
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="h-section">Latest posts</h2>
+
+      <ul class="posts">
+        {slots.map(() => (
+          <li class="post post--empty">
+            <div class="post__date">— — —</div>
+            <div class="post__body">
+              <h3>Post title goes here</h3>
+              <p>The first couple of lines of the post will sit here as a short excerpt.</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <p class="note">
+        Placeholder. These rows get filled from the Substack feed once it's wired up.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .shops {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 22px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .shops a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: border-color 140ms ease, background-color 140ms ease;
+  }
+
+  .shops a:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .shops svg { width: 14px; height: 14px; opacity: 0.6; }
+
+  .posts { margin: 0; padding: 0; list-style: none; }
+
+  .post {
+    display: grid;
+    grid-template-columns: 140px minmax(0, 1fr);
+    gap: 24px;
+    padding-block: 26px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .post:last-child { border-bottom: 1px solid var(--rule); }
+
+  .post__date {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .post__body h3 {
+    margin: 0 0 8px;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    letter-spacing: -0.02em;
+  }
+
+  .post__body p { margin: 0; color: var(--text-muted); max-width: 62ch; }
+
+  .post--empty { opacity: 0.4; }
+
+  .note {
+    margin-top: 22px;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 640px) {
+    .post { grid-template-columns: 1fr; gap: 6px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .shops a { transition: none; }
+  }
+</style>
