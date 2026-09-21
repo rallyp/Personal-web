@@ -1,0 +1,107 @@
+---
+import Base from '../layouts/Base.astro';
+import PageBanner from '../components/PageBanner.astro';
+import Placeholder from '../components/Placeholder.astro';
+
+// Everything that is for sale, in one place. Rough for now — the designs are
+// placeholders until the artwork is dropped into public/images/designs/.
+const collections = [
+  {
+    id: 'greyhounds',
+    title: 'Greyhound designs',
+    blurb:
+      "Greyhounds make great (greyt) pets! I'm a fan. We currently have one retired racer and we've had two previously. I also fostered many for my first adoption group. As a way to expend some creative energy, I've messed around with various images for t-shirts and the like.",
+    shops: [
+      { name: 'Threadless', href: 'https://rallyp.threadless.com' },
+      { name: 'Redbubble',  href: 'https://rallyp.redbubble.com' },
+    ],
+    designs: [
+      'greyhound design 1', 'greyhound design 2', 'greyhound design 3', 'greyhound design 4',
+    ],
+  },
+  {
+    id: 'bernal',
+    title: 'Bernal Heights designs',
+    blurb: 'Repping the lovely San Francisco neighborhood of Bernal Heights.',
+    shops: [
+      { name: 'Threadless', href: 'https://rallyp.threadless.com' },
+    ],
+    designs: [
+      'Bernal Heights flag design', 'Bernal Heights badge design', 'California 67 design',
+    ],
+  },
+];
+---
+
+<Base
+  title="rally pagulayan - store"
+  description="Greyhound and Bernal Heights designs on t-shirts and other things, by Rally Pagulayan."
+  heroAtTop
+>
+  <PageBanner title="Store" subtitle="Things I've drawn, on things you can buy" />
+
+  {collections.map((c, i) => (
+    <section class:list={['section', { 'section--band': i % 2 === 1 }]} id={c.id}>
+      <div class="wrap">
+        <h2 class="h-section">{c.title}</h2>
+        <p class="lede">{c.blurb}</p>
+
+        <ul class="shops">
+          {c.shops.map((s) => (
+            <li>
+              <a href={s.href} target="_blank" rel="noopener noreferrer">
+                {s.name}
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <div class="grid">
+          {c.designs.map((d) => <Placeholder label={d} ratio="1 / 1" />)}
+        </div>
+      </div>
+    </section>
+  ))}
+</Base>
+
+<style>
+  .shops {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 22px 0 34px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .shops a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: border-color 140ms ease, background-color 140ms ease;
+  }
+
+  .shops a:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .shops svg { width: 14px; height: 14px; opacity: 0.6; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    max-width: 700px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .shops a { transition: none; }
+  }
+</style>

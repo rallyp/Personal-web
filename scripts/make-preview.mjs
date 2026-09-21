@@ -25,10 +25,9 @@ const pages = [];
 
 const routes = {
   '/': 'index.html',
-  '/work': 'work/index.html',
-  '/other': 'other/index.html',
-  '/other/gh-comics': 'other/gh-comics/index.html',
   '/about': 'about/index.html',
+  '/comics': 'comics/index.html',
+  '/store': 'store/index.html',
 };
 
 const resolve = (abs) => {

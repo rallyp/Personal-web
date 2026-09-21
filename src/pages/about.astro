@@ -2,10 +2,31 @@
 import Base from '../layouts/Base.astro';
 import PageBanner from '../components/PageBanner.astro';
 import Placeholder from '../components/Placeholder.astro';
+
+// The professional blocks that used to live on their own Work page.
+// Rough for now — this is the section to rewrite properly.
+const career = [
+  {
+    title: 'CEO',
+    body: ["I'm currently the CEO of EchoUser, a successful UX Research and Design firm."],
+  },
+  {
+    title: 'Leading UX teams',
+    body: ["I was EchoUser's first Design Director, building a thriving Design team and eventually took over both Design and Research."],
+  },
+  {
+    title: 'UX expertise',
+    body: ["I've been practicing UX (Human Factors Engineering, Usability, User Interface Design...) for 30 years now. I've done this across many domains from military comms to databases to analytics to consumer products, in large organizations and with startups. Although my experience has a lot of breadth, my expertise is with really complex systems."],
+  },
+  {
+    title: 'Foundations',
+    body: ['You gain a lot of insight about how I practice UX by understanding how I learned and practiced at the start of my career. Dive into my foundational experiences and education to understand more about how I approach the UX practice.'],
+  },
+];
 ---
 
 <Base title="rally pagulayan - about" heroAtTop>
-  <PageBanner title="About" image={undefined} />
+  <PageBanner title="About" />
 
   <section class="section">
     <div class="wrap">
@@ -26,10 +47,19 @@ import Placeholder from '../components/Placeholder.astro';
 
   <hr class="rule" />
 
-  <section class="section">
+  <section class="section section--band">
     <div class="wrap">
-      <h2 class="h-section">The Professional About</h2>
-      <p class="lede">This is where I'll give a high level "About" my career. (Haven't done it yet)</p>
+      <h2 class="h-section">The work</h2>
+      <p class="lede">An overview of my professional experience.</p>
+
+      <div class="career">
+        {career.map((item) => (
+          <article>
+            <h3>{item.title}</h3>
+            {item.body.map((p) => <p>{p}</p>)}
+          </article>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -37,7 +67,7 @@ import Placeholder from '../components/Placeholder.astro';
 
   <section class="section">
     <div class="wrap">
-      <h2 class="h-section">The Long Story</h2>
+      <h2 class="h-section">The long story</h2>
       <p class="lede">Maybe a little bit of a longer narrative...</p>
     </div>
   </section>
@@ -45,4 +75,21 @@ import Placeholder from '../components/Placeholder.astro';
 
 <style>
   .flags { font-size: 20px; letter-spacing: 4px; }
+
+  .career {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 34px 40px;
+    margin-top: 38px;
+  }
+
+  .career h3 {
+    margin: 0 0 10px;
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    letter-spacing: -0.02em;
+    color: var(--heading-blue);
+  }
+
+  .career p { margin: 0 0 10px; color: var(--text-muted); }
 </style>

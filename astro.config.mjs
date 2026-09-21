@@ -6,8 +6,12 @@ export default defineConfig({
   // Built CSS/fonts land in /assets rather than Astro's default /_astro —
   // a leading underscore is treated as special by some hosts and preview tools.
   build: { assets: 'assets' },
-  // Keep the old Google Sites URL working: /home now points at the homepage.
+  // Old URLs keep working. /home is from the Google Sites original; the rest
+  // are from the Work/Other structure this site replaced.
   redirects: {
     '/home': '/',
+    '/work': '/about',
+    '/other': '/store',
+    '/other/gh-comics': '/comics',
   },
 });

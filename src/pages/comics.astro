@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+import PageBanner from '../components/PageBanner.astro';
+import Placeholder from '../components/Placeholder.astro';
+
+// Each comic is a title plus one or more panels, in order.
+const comics = [
+  { title: "Who's house",           panels: 1 },
+  { title: 'Time management',       panels: 1 },
+  { title: 'Excuses',               panels: 5 },
+  { title: 'East Coast West Coast', panels: 1 },
+  { title: 'Unbelievable.',         panels: 1 },
+  { title: 'WAT',                   panels: 1 },
+  { title: 'Waiting',               panels: 4 },
+];
+---
+
+<Base
+  title="rally pagulayan - greyhound comics"
+  description="Greyhound photo comics by Rally Pagulayan."
+  heroAtTop
+>
+  <PageBanner title="Greyhound comics" subtitle="A (poor) emulation of a photo comic I loved" />
+
+  <section class="section">
+    <div class="wrap">
+      <p class="lede">
+        Once upon a time, I was greatly inspired by a greyhound-themed photo comic called Shades of
+        Greyhounds. Sadly, it no longer exists, but I did a (poor) emulation of it. Here are some of
+        the remnants of that.
+      </p>
+    </div>
+  </section>
+
+  {comics.map((comic) => (
+    <section class="section comic">
+      <div class="wrap">
+        <h2 class="comic__title">{comic.title}</h2>
+        <div class="comic__panels">
+          {Array.from({ length: comic.panels }).map((_, i) => (
+            <Placeholder label={`${comic.title} — panel ${i + 1}`} ratio="4 / 3" />
+          ))}
+        </div>
+      </div>
+      <hr class="rule" />
+    </section>
+  ))}
+</Base>
+
+<style>
+  .comic { padding-block: 36px; }
+
+  .comic__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    letter-spacing: -0.02em;
+    color: var(--heading-blue);
+    margin-bottom: 18px;
+  }
+
+  .comic__panels {
+    display: grid;
+    gap: 14px;
+    max-width: 720px;
+  }
+
+  .comic:last-of-type :global(.rule) { display: none; }
+</style>
