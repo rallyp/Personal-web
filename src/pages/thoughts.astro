@@ -1,13 +1,18 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageBanner from '../components/PageBanner.astro';
+import { getSubstackPosts } from '../lib/substack';
 
 const SUBSTACK = 'https://rallyp.substack.com';
 const MEDIUM = 'https://medium.com/@rallyp';
 
-// Placeholder rows, shaped like the real post list so the layout is already
-// settled when the Substack feed gets wired in.
-const slots = [1, 2, 3];
+// Read at build time, so visitors get plain HTML with no third-party
+// requests. Returns null if the feed can't be reached, and the page falls
+// back to placeholder rows rather than the build failing.
+const posts = await getSubstackPosts(5);
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
 
 <Base
@@ -46,20 +51,42 @@ const slots = [1, 2, 3];
     <div class="wrap">
       <h2 class="h-section">Latest posts</h2>
 
-      <ul class="posts">
-        {slots.map(() => (
-          <li class="post post--empty">
-            <div class="post__date">— — —</div>
-            <div class="post__body">
-              <h3>Post title goes here</h3>
-              <p>The first couple of lines of the post will sit here as a short excerpt.</p>
-            </div>
-          </li>
-        ))}
-      </ul>
+      {posts ? (
+        <ul class="posts">
+          {posts.map((post) => (
+            <li class="post">
+              <div class="post__date">
+                {post.date ? <time datetime={post.date.toISOString()}>{formatDate(post.date)}</time> : null}
+              </div>
+              <div class="post__body">
+                <h3>
+                  <a href={post.url} target="_blank" rel="noopener noreferrer">{post.title}</a>
+                </h3>
+                {post.excerpt && <p>{post.excerpt}</p>}
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <ul class="posts">
+          {[1, 2, 3].map(() => (
+            <li class="post post--empty">
+              <div class="post__date">— — —</div>
+              <div class="post__body">
+                <h3>Post title goes here</h3>
+                <p>The first couple of lines of the post will sit here as a short excerpt.</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
 
       <p class="note">
-        Placeholder. These rows get filled from the Substack feed once it's wired up.
+        {posts
+          ? 'Pulled from the Substack feed when the site was last built.'
+          : "The Substack feed couldn't be reached during this build, so these are placeholders."}
+        {' '}
+        <a href={SUBSTACK} target="_blank" rel="noopener noreferrer">Read everything on Substack</a>.
       </p>
     </div>
   </section>
@@ -117,7 +144,15 @@ const slots = [1, 2, 3];
     font-family: var(--font-display);
     font-size: 1.3rem;
     letter-spacing: -0.02em;
+    text-wrap: balance;
   }
+
+  .post__body h3 a {
+    text-decoration: none;
+    color: var(--heading-blue);
+  }
+
+  .post__body h3 a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
   .post__body p { margin: 0; color: var(--text-muted); max-width: 62ch; }
 
@@ -126,9 +161,10 @@ const slots = [1, 2, 3];
   .note {
     margin-top: 22px;
     font-size: 13px;
-    font-style: italic;
     color: var(--text-muted);
   }
+
+  .note a { text-decoration: underline; text-underline-offset: 3px; }
 
   @media (max-width: 640px) {
     .post { grid-template-columns: 1fr; gap: 6px; }
