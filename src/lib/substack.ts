@@ -10,26 +10,56 @@ export interface Post {
 const FEED_URL = 'https://rallyp.substack.com/feed';
 const TIMEOUT_MS = 8000;
 
+const NAMED_ENTITIES: Record<string, string> = {
+  nbsp: ' ',
+  lt: '<',
+  gt: '>',
+  quot: '"',
+  apos: "'",
+  rsquo: '\u2019',
+  lsquo: '\u2018',
+  ldquo: '\u201c',
+  rdquo: '\u201d',
+  mdash: '\u2014',
+  ndash: '\u2013',
+  hellip: '\u2026',
+};
+
+/**
+ * Decode HTML entities, including numeric ones. Substack uses numeric
+ * escapes for anything outside ASCII — emoji especially — so a fixed list of
+ * named entities is not enough.
+ */
+function decodeEntities(input: string): string {
+  return input
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex) => safeCodePoint(parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_, dec) => safeCodePoint(parseInt(dec, 10)))
+    .replace(/&([a-z]+);/gi, (match, name) => NAMED_ENTITIES[name.toLowerCase()] ?? match)
+    // &amp; goes last, so "&amp;#39;" doesn't get decoded twice
+    .replace(/&amp;/g, '&');
+}
+
+function safeCodePoint(code: number): string {
+  try {
+    return String.fromCodePoint(code);
+  } catch {
+    return '';
+  }
+}
+
 /** Turn a chunk of post HTML into a plain-text excerpt. */
 function toExcerpt(html: string, maxLength = 220): string {
-  const text = String(html ?? '')
-    .replace(/<figure[\s\S]*?<\/figure>/gi, ' ')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;|&rsquo;|&#8217;/g, '’')
-    .replace(/&ldquo;|&#8220;/g, '“')
-    .replace(/&rdquo;|&#8221;/g, '”')
-    .replace(/&mdash;|&#8212;/g, '—')
+  const text = decodeEntities(
+    String(html ?? '')
+      .replace(/<figure[\s\S]*?<\/figure>/gi, ' ')
+      .replace(/<[^>]+>/g, ' '),
+  )
     .replace(/\s+/g, ' ')
     .trim();
 
   if (text.length <= maxLength) return text;
   // cut at the last whole word so we don't end mid-syllable
-  return text.slice(0, text.lastIndexOf(' ', maxLength)).trimEnd() + '…';
+  return text.slice(0, text.lastIndexOf(' ', maxLength)).trimEnd() + '\u2026';
 }
 
 /**
@@ -58,7 +88,7 @@ export async function getSubstackPosts(limit = 5): Promise<Post[] | null> {
       .map((item) => {
         const published = item.pubDate ? new Date(item.pubDate) : null;
         return {
-          title: String(item.title ?? 'Untitled'),
+          title: decodeEntities(String(item.title ?? 'Untitled')),
           url: String(item.link ?? FEED_URL),
           date: published && !Number.isNaN(published.valueOf()) ? published : null,
           excerpt: toExcerpt(item.description ?? item['content:encoded'] ?? ''),
