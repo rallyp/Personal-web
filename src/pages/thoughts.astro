@@ -1,8 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageBanner from '../components/PageBanner.astro';
-import { getSubstackPosts } from '../lib/substack';
 import SongList from '../components/SongList.astro';
+import { getSubstackPosts } from '../lib/substack';
 import { listTitle, listIntro } from '../data/songs';
 
 const SUBSTACK = 'https://rallyp.substack.com';
@@ -24,13 +24,13 @@ const formatDate = (date: Date) =>
 >
   <PageBanner title="Thoughts" subtitle="Writing, mostly about the practice" />
 
-  <section class="section">
+  <section class="section section--intro">
     <div class="wrap">
       <p class="lede">
         This is where the writing will live. For now it points at the places the writing already is.
       </p>
 
-      <ul class="shops">
+      <ul class="links">
         <li>
           <a href={SUBSTACK} target="_blank" rel="noopener noreferrer">
             Substack
@@ -47,7 +47,28 @@ const formatDate = (date: Date) =>
     </div>
   </section>
 
-  <hr class="rule" />
+  <!-- Pinned: stays at the top of the page regardless of what the feed returns. -->
+  <section class="section section--band pinned" aria-labelledby="pinned-title">
+    <div class="wrap">
+      <p class="eyebrow">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4h6l-1 6 3 3H7l3-3-1-6ZM12 13v7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Pinned
+      </p>
+
+      <h2 class="h-section" id="pinned-title">
+        <a href="/songs">{listTitle}</a>
+      </h2>
+      <p class="lede">{listIntro}</p>
+
+      <div class="preview">
+        <SongList limit={5} />
+      </div>
+
+      <p class="more-link">
+        <a href="/songs">See all twenty &rarr;</a>
+      </p>
+    </div>
+  </section>
 
   <section class="section">
     <div class="wrap">
@@ -92,29 +113,12 @@ const formatDate = (date: Date) =>
       </p>
     </div>
   </section>
-
-  <hr class="rule" />
-
-  <section class="section">
-    <div class="wrap">
-      <h2 class="h-section">
-        <a class="list-link" href="/songs">{listTitle}</a>
-      </h2>
-      <p class="lede">{listIntro}</p>
-
-      <div class="preview">
-        <SongList limit={5} />
-      </div>
-
-      <p class="note">
-        <a href="/songs">See all twenty &rarr;</a>
-      </p>
-    </div>
-  </section>
 </Base>
 
 <style>
-  .shops {
+  .section--intro { padding-bottom: 48px; }
+
+  .links {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
@@ -123,7 +127,7 @@ const formatDate = (date: Date) =>
     list-style: none;
   }
 
-  .shops a {
+  .links a {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -135,12 +139,39 @@ const formatDate = (date: Date) =>
     transition: border-color 140ms ease, background-color 140ms ease;
   }
 
-  .shops a:hover {
+  .links a:hover {
     border-color: rgba(255, 255, 255, 0.4);
     background: rgba(255, 255, 255, 0.05);
   }
 
-  .shops svg { width: 14px; height: 14px; opacity: 0.6; }
+  .links svg { width: 14px; height: 14px; opacity: 0.6; }
+
+  /* ---------- pinned ---------- */
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0 0 14px;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .eyebrow svg { width: 15px; height: 15px; }
+
+  .pinned .h-section { margin-bottom: 10px; }
+
+  .pinned .h-section a { color: inherit; text-decoration: none; }
+  .pinned .h-section a:hover { text-decoration: underline; text-underline-offset: 6px; }
+
+  .preview { max-width: 760px; margin-top: 26px; }
+
+  .more-link { margin: 24px 0 0; font-size: 14px; }
+  .more-link a { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* ---------- post list ---------- */
 
   .posts { margin: 0; padding: 0; list-style: none; }
 
@@ -187,16 +218,11 @@ const formatDate = (date: Date) =>
 
   .note a { text-decoration: underline; text-underline-offset: 3px; }
 
-  .list-link { color: inherit; text-decoration: none; }
-  .list-link:hover { text-decoration: underline; text-underline-offset: 6px; }
-
-  .preview { max-width: 760px; margin-top: 26px; }
-
   @media (max-width: 640px) {
     .post { grid-template-columns: 1fr; gap: 6px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .shops a { transition: none; }
+    .links a { transition: none; }
   }
 </style>
