@@ -1,0 +1,80 @@
+---
+// Renders a slice of the top-20 list. Used at full length on /songs and
+// cut to five on /thoughts, so both always show the same data.
+import { songs, isFilled, type Song } from '../data/songs';
+
+interface Props {
+  limit?: number;
+  showNotes?: boolean;
+}
+
+const { limit = songs.length, showNotes = false } = Astro.props;
+const rows: Song[] = songs.slice(0, limit);
+---
+
+<ol class="songs">
+  {rows.map((entry, i) => (
+    <li class:list={['song', { 'song--empty': !isFilled(entry) }]}>
+      <span class="song__rank">{String(i + 1).padStart(2, '0')}</span>
+      <span class="song__body">
+        {isFilled(entry) ? (
+          <>
+            <span class="song__title">{entry.song || 'Untitled'}</span>
+            {entry.artist && <span class="song__artist">{entry.artist}</span>}
+            {showNotes && entry.note && <span class="song__note">{entry.note}</span>}
+          </>
+        ) : (
+          <span class="song__title">&mdash;</span>
+        )}
+      </span>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .songs {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: none;
+  }
+
+  .song {
+    display: grid;
+    grid-template-columns: 3.2rem minmax(0, 1fr);
+    gap: 20px;
+    align-items: baseline;
+    padding-block: 16px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .song:last-child { border-bottom: 1px solid var(--rule); }
+
+  .song__rank {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--heading-blue);
+    opacity: 0.8;
+  }
+
+  .song__body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+
+  .song__title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    letter-spacing: -0.015em;
+  }
+
+  .song__artist { font-size: 14px; color: var(--text-muted); }
+
+  .song__note {
+    margin-top: 4px;
+    font-size: 14px;
+    color: var(--text-muted);
+    max-width: 62ch;
+  }
+
+  .song--empty { opacity: 0.35; }
+  .song--empty .song__title { font-weight: 400; }
+</style>

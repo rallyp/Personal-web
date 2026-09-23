@@ -27,6 +27,7 @@ const routes = {
   '/': 'index.html',
   '/about': 'about/index.html',
   '/thoughts': 'thoughts/index.html',
+  '/songs': 'songs/index.html',
   '/comics': 'comics/index.html',
   '/store': 'store/index.html',
 };

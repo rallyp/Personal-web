@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import PageBanner from '../components/PageBanner.astro';
+import SongList from '../components/SongList.astro';
+import { listTitle, listIntro, songs, isFilled } from '../data/songs';
+
+const filled = songs.filter(isFilled).length;
+---
+
+<Base
+  title={`rally pagulayan - ${listTitle.toLowerCase()}`}
+  description="Rally Pagulayan's twenty favourite songs, a list that will keep changing."
+  heroAtTop
+>
+  <PageBanner title="Top 20 songs" subtitle={listIntro} />
+
+  <section class="section">
+    <div class="wrap narrow">
+      <SongList showNotes />
+
+      {filled === 0 && (
+        <p class="note">
+          The list is still being written. Twenty slots, no songs committed to yet.
+        </p>
+      )}
+
+      <p class="back">
+        <a href="/thoughts">&larr; Back to thoughts</a>
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .narrow { max-width: 760px; }
+
+  .note {
+    margin-top: 26px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .back { margin-top: 40px; font-size: 14px; }
+  .back a { text-decoration: underline; text-underline-offset: 3px; }
+</style>
