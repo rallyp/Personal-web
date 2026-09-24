@@ -19,7 +19,9 @@ const rows: Song[] = songs.slice(0, limit);
       <span class="song__body">
         {isFilled(entry) ? (
           <>
-            <span class="song__title">{entry.song || 'Untitled'}</span>
+            {entry.song
+              ? <span class="song__title">{entry.song}</span>
+              : <span class="song__title song__title--tbd">Song to come</span>}
             {entry.artist && <span class="song__artist">{entry.artist}</span>}
             {showNotes && entry.note && <span class="song__note">{entry.note}</span>}
           </>
@@ -67,6 +69,8 @@ const rows: Song[] = songs.slice(0, limit);
   }
 
   .song__artist { font-size: 14px; color: var(--text-muted); }
+
+  .song__title--tbd { opacity: 0.45; font-style: italic; }
 
   .song__note {
     margin-top: 4px;

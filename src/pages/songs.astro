@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PageBanner from '../components/PageBanner.astro';
 import SongList from '../components/SongList.astro';
-import { listTitle, listIntro, songs, isFilled } from '../data/songs';
+import { listTitle, listIntro, listRule, songs, isFilled } from '../data/songs';
 
 const filled = songs.filter(isFilled).length;
 ---
@@ -12,15 +12,17 @@ const filled = songs.filter(isFilled).length;
   description="Rally Pagulayan's twenty favourite songs, a list that will keep changing."
   heroAtTop
 >
-  <PageBanner title="Top 20 songs" subtitle={listIntro} />
+  <PageBanner title="Favorite 20 songs" subtitle={listIntro} />
 
   <section class="section">
     <div class="wrap narrow">
+      <p class="rule-note">{listRule}</p>
+
       <SongList showNotes />
 
-      {filled === 0 && (
+      {filled < songs.length && (
         <p class="note">
-          The list is still being written. Twenty slots, no songs committed to yet.
+          {filled} of {songs.length} decided so far. The rest are still being argued over.
         </p>
       )}
 
@@ -33,6 +35,12 @@ const filled = songs.filter(isFilled).length;
 
 <style>
   .narrow { max-width: 760px; }
+
+  .rule-note {
+    margin: 0 0 28px;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
 
   .note {
     margin-top: 26px;
