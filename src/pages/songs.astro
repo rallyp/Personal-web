@@ -2,9 +2,18 @@
 import Base from '../layouts/Base.astro';
 import PageBanner from '../components/PageBanner.astro';
 import SongList from '../components/SongList.astro';
-import { listTitle, listIntro, listRule, songs, isFilled } from '../data/songs';
+import {
+  listTitle,
+  listIntro,
+  listRule,
+  songs,
+  hasSong,
+  shortlist,
+  shortlistIntro,
+  alsoConsidering,
+} from '../data/songs';
 
-const filled = songs.filter(isFilled).length;
+const decided = songs.filter(hasSong).length;
 ---
 
 <Base
@@ -20,15 +29,42 @@ const filled = songs.filter(isFilled).length;
 
       <SongList showNotes />
 
-      {filled < songs.length && (
+      {decided < songs.length && (
         <p class="note">
-          {filled} of {songs.length} decided so far. The rest are still being argued over.
+          {decided} of {songs.length} decided so far. The rest are still being argued over.
         </p>
       )}
 
       <p class="back">
         <a href="/thoughts">&larr; Back to thoughts</a>
       </p>
+    </div>
+  </section>
+
+  <section class="section section--band">
+    <div class="wrap narrow">
+      <h2 class="h-section">Still in the running</h2>
+      <p class="lede">{shortlistIntro}</p>
+
+      <div class="shortlist">
+        {shortlist.map((entry) => (
+          <div class="artist">
+            <h3>{entry.artist}</h3>
+            <ul>
+              {entry.songs.map((song) => <li>{song}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div class="others">
+        <h3>And a few on their own</h3>
+        <ul>
+          {alsoConsidering.map((entry) => (
+            <li><span class="others__song">{entry.song}</span> <span class="others__artist">{entry.artist}</span></li>
+          ))}
+        </ul>
+      </div>
     </div>
   </section>
 </Base>
@@ -47,6 +83,53 @@ const filled = songs.filter(isFilled).length;
     font-size: 13px;
     color: var(--text-muted);
   }
+
+  .shortlist {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 30px 36px;
+    margin-top: 34px;
+  }
+
+  .artist h3 {
+    margin: 0 0 8px;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+    color: var(--heading-blue);
+  }
+
+  .artist ul,
+  .others ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .artist li {
+    font-size: 14px;
+    color: var(--text-muted);
+    padding-block: 2px;
+  }
+
+  .others {
+    margin-top: 40px;
+    padding-top: 26px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .others h3 {
+    margin: 0 0 10px;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+    color: var(--heading-blue);
+  }
+
+  .others li { padding-block: 3px; font-size: 14px; }
+  .others__song { color: var(--text); }
+  .others__artist { color: var(--text-muted); }
+  .others__artist::before { content: "\2009\00b7\2009"; color: var(--text-muted); }
 
   .back { margin-top: 40px; font-size: 14px; }
   .back a { text-decoration: underline; text-underline-offset: 3px; }
